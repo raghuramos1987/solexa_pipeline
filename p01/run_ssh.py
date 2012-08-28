@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+######################################################################
+# File Name :
+# Purpose :
+# Author : Raghuram Onti Srinivasan
+# Email : onti@cse.ohio-state.edu
+######################################################################
 import pexpect
 import sys
 
@@ -33,6 +40,6 @@ class SSH_cmd:
             #flag = 0
 
 if __name__ == '__main__':
-    passwd = "A706412O" 
+    passwd = "A706412O"
     a = SSH_cmd('glenn.osc.edu', 'osu5422', passwd)
     a.run("/usr/bin/python /nfs/03/osu5422/try.py", sys.stdout)
