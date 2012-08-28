@@ -1,0 +1,10 @@
+run_ssh
+run_make
+config
+rsync
+commandop
+transfer
+error
+copy
+sftp_trans
+mail
