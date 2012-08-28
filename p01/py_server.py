@@ -50,7 +50,7 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
             if self.runFlag[self.runRunId]:
                 self.runFlag[self.runRunId] = 0
                 logging.debug("starting rsync")
-                self.allPipeLines[self.runRunId].set_params(self.run_folder, 
+                self.allPipeLines[self.runRunId].set_params(self.run_folder,
 		    self.gerald_conf, self.dist_conf, self.dest,
 		    26, )
                 thread.start_new_thread(self.allPipeLines[self.runRunId].InitiateRsync,
@@ -72,7 +72,7 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
 
     def stop(self):
         """stop(): stops the server"""
-        self.running = 0 
+        self.running = 0
         return 1
 
     def adder_function(self, x, y):
@@ -80,7 +80,7 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
 
     def QuestCall(self, run_folder, gerald_conf, dist_conf, local,
                   ctrl_lane):
-        """Main call from quest which is called when clicked on 
+        """Main call from quest which is called when clicked on
         Execute configuration"""
         pipeline_run = run_make.MakeGerald(logging)
         pipeline_run.codeBasePath = os.getcwd()
@@ -97,16 +97,16 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
     def TestCall(self, run_folder, gerald_conf, dist_conf, local,
                   ctrl_lane):
         mailObj = mail.Mail()
-        mailObj.mail_diff("raghuramos1987@gmail.com", "xmlrpctest",
+        mailObj.mail_diff("user@gmail.com", "xmlrpctest",
                            run_folder+'\n'+gerald_conf+'\n'+dist_conf+\
                            '\n'+local)
         return 1
 
  #change this later TODO:raghu!
-#TODO: raghu. put all proc calls in try catch blocks to handle 
+#TODO: raghu. put all proc calls in try catch blocks to handle
 #them and return some value to quest!
     def ReadyForCompression(self, run_folder):
-        """Function call initiated from quest which is in turn started 
+        """Function call initiated from quest which is in turn started
         by osc_quest.py"""
         self.rsyncRunId = run_folder.split('_')[0]
         self.allPipeLines[self.rsyncRunId].loadConfigObj(run_folder)
@@ -115,7 +115,7 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
         return 1
 
     def ReadyForDataTransfer(self, run_folder):
-        """Function call initiated from quest which is in turn started 
+        """Function call initiated from quest which is in turn started
         by osc_quest.py"""
         print "wrong quest call"
         self.compressRunId = run_folder.split('_')[0]
@@ -129,18 +129,18 @@ class SolexaXmlRpcServer(SimpleXMLRPCServer):
 
 if __name__ == "__main__":
 
-    logging.basicConfig(level = logging.DEBUG, 
+    logging.basicConfig(level = logging.DEBUG,
                         format='%(asctime)s %(message)s',
                         filename = "server_logs/test_log.txt",
                         filemode = 'w')
     server = SolexaXmlRpcServer((socket.gethostname(), int(sys.argv[1])),\
                         requestHandler=RequestHandler)
     server.register_function(server.adder_function, 'add')
-    server.register_function(server.stop) 
-    server.register_function(server.QuestCall) 
-    server.register_function(server.TestCall) 
-    server.register_function(server.ReadyForCompression) 
-    server.register_function(server.ReadyForDataTransfer) 
+    server.register_function(server.stop)
+    server.register_function(server.QuestCall)
+    server.register_function(server.TestCall)
+    server.register_function(server.ReadyForCompression)
+    server.register_function(server.ReadyForDataTransfer)
 
 
     server.serve_forever()
